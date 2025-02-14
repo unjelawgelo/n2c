@@ -91,14 +91,20 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   
     document.querySelectorAll(".tab-button").forEach((button) => {
-      button.addEventListener("click", function () {
-        const tab = this.dataset.tab
-        document.querySelectorAll(".tab-button").forEach((b) => b.classList.remove("active"))
-        document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"))
-        this.classList.add("active")
-        document.getElementById(`${tab}-input`).classList.add("active")
-      })
-    })
+        button.addEventListener("click", function () {
+          document.querySelectorAll(".tab-button").forEach((b) => b.classList.remove("active"));
+          document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+      
+          this.classList.add("active");
+      
+          if (this.innerText === "Manual Input") {
+            document.getElementById("manual-input").classList.add("active");
+          } else if (this.innerText === "Image Upload") {
+            document.getElementById("image-upload").classList.add("active");
+          }
+        });
+      });
+      
   
     document.getElementById("full-screen-toggle").addEventListener("click", function () {
       document.getElementById("summary").classList.toggle("full-screen")
@@ -107,10 +113,20 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   
   function setActive(button) {
-  document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-  button.classList.add('active');
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+    // Determine which tab was clicked and show the corresponding content
+    if (button.innerText === "Manual Input") {
+        document.getElementById('manual-input').classList.add('active');
+    } else if (button.innerText === "Image Upload") {
+        document.getElementById('image-upload').classList.add('active');
+    }
 }
- 
+
 
 //Key first
 document.addEventListener("DOMContentLoaded", function () {
@@ -146,3 +162,69 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+//image upload
+document.getElementById("imageInput").addEventListener("change", function (event) {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+        const reader = new FileReader(); // Read the file
+        reader.onload = function (e) {
+            const uploadedImage = document.getElementById("uploadedImage");
+            uploadedImage.src = e.target.result; // Set image source
+            uploadedImage.style.display = "block"; // Show the image
+        };
+        reader.readAsDataURL(file); // Convert file to Base64 URL
+    }
+});
+
+
+//ai
+document.getElementById("imageInput").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const uploadedImage = document.getElementById("uploadedImage");
+            uploadedImage.src = e.target.result;
+            uploadedImage.style.display = "block";
+
+            // Perform OCR to extract text (chords)
+            Tesseract.recognize(
+                e.target.result,
+                'eng',
+                { logger: (m) => console.log(m) } // Logs OCR process
+            ).then(({ data: { text } }) => {
+                console.log("Extracted Text:", text);
+                const detectedChords = extractChords(text);
+                displayConvertedChords(detectedChords);
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function extractChords(text) {
+    const chordPattern = /\b[A-G][#b]?m?(maj7|m7|7|dim|aug)?\b/g;
+    return text.match(chordPattern) || [];
+}
+
+function displayConvertedChords(chords) {
+    const key = document.getElementById("key").value;
+    const convertedChords = chords.map(chord => convertToNashville(key, chord));
+
+    // Display the results in the new section
+    document.getElementById("chord-results").style.display = "block";
+    document.getElementById("detectedChords").textContent = chords.length > 0 ? chords.join(", ") : "No chords detected.";
+    document.getElementById("convertedChords").textContent = convertedChords.length > 0 ? convertedChords.join(", ") : "No converted chords available.";
+}
+
+function convertToNashville(key, chord) {
+    const nashvilleMap = {
+        "C": { "C": "1", "Dm": "2m", "Em": "3m", "F": "4", "G": "5", "Am": "6m", "Bdim": "7dim" },
+        "G": { "G": "1", "Am": "2m", "Bm": "3m", "C": "4", "D": "5", "Em": "6m", "F#dim": "7dim" }
+        // Add more keys as needed...
+    };
+    
+    return nashvilleMap[key]?.[chord] || chord; // Default to the same chord if not found
+}
