@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chord Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Chord Converter</h1>
+        <div class="tab-container">
+            <button class="tab-button active" onclick="setActive(this)">Manual Input</button>
+            <button class="tab-button" onclick="setActive(this)">Image Upload</button>
+        </div>
+        
+        <div id="manual-input" class="tab-content active">
+            <div class="key-selector">
+                <label for="key">Key:</label>
+                <select id="key">
+                    <option value="">Select a key</option>
+                    <option value="C">C</option>
+                    <option value="C#">C#</option>
+                    <option value="D">D</option>
+                    <option value="D#">D#</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="F#">F#</option>
+                    <option value="G">G</option>
+                    <option value="G#">G#</option>
+                    <option value="A">A</option>
+                    <option value="A#">A#</option>
+                    <option value="B">B</option>
+                </select>
+            </div>
+            <div class="sections">
+                <div class="section-tabs">
+                    <button class="section-tab active" data-section="intro">Intro</button>
+                    <button class="section-tab" data-section="verse">Verse</button>
+                    <button class="section-tab" data-section="pre-chorus">Pre-Chorus</button>
+                    <button class="section-tab" data-section="chorus">Chorus</button>
+                    <button class="section-tab" data-section="passing-chords">Passing Chords</button>
+                    <button class="section-tab" data-section="bridge">Bridge</button>
+                    <button class="section-tab" data-section="outro">Outro</button>
+                </div>
+                <div class="section-content">
+                    <div class="input-group">
+                        <label for="nashville">Nashville Numbers:</label>
+                        <textarea id="nashville" rows="4" placeholder="Select a key then Enter Nashville numbers (e.g., 1 4 5 6 --with spaces)"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="converted">Converted Chords:</label>
+                        <textarea id="converted" rows="4" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <button id="convert-all">Auto-Converted Chords Below:</button>
+            <div id="summary" class="summary">
+                <div class="summary-header">
+                    <h2>Summary</h2>
+                    <button id="full-screen-toggle">Full Screen</button>
+                </div>
+                <div class="summary-content"></div>
+            </div>
+        </div>
+        <div id="image-upload" class="tab-content">
+            <h2>Image Upload</h2>
+            <p>Image upload functionality is not implemented in this version.</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

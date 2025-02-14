@@ -1,0 +1,148 @@
+body {
+    font-family: Arial;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    width: 84%;
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 11px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+  h1 {
+    color: #333;
+    margin-bottom: 0.1px;
+  }
+  h5 {
+    margin-bottom: 20px;
+    color: #878383
+  }
+  
+  .tabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .tab-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ddd;
+    cursor: pointer;
+    border-radius: 5px; /* Adjust the value for more or less rounding */
+
+  }
+  
+  .tab-button.active {
+    background-color: #333;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  .key-selector {
+    margin-bottom: 20px;
+  }
+  
+  select {
+    padding: 5px;
+    font-size: 12px;
+  }
+  
+  .sections {
+    margin-bottom: 20px;
+  }
+  
+  .section-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .section-tab {
+    padding: 5px 10px;
+    border: none;
+    background-color: #5a5a5a;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .section-tab.active {
+    background-color: #333;
+  }
+  
+  .input-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 5px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Adjust the value for more or less rounding */
+
+  }
+  
+  button:hover {
+    background-color: #444;
+  }
+  
+  .summary {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .summary.full-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+  
+  .summary-content {
+    font-size: 14px;
+  }
+  
+  .summary-content h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  
