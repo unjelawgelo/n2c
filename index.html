@@ -63,11 +63,28 @@
                 <div class="summary-content"></div>
             </div>
         </div>
+
+
         <div id="image-upload" class="tab-content">
-            <h2>Image Upload</h2>
-            <p>Image upload functionality is not implemented in this version.</p>
+            <p>Please upload an image with chords</p>
+            <input type="file" id="imageInput" accept="image/*">
+            <div id="imagePreview">
+                <img id="uploadedImage" src="" alt="Uploaded Image" style="max-width: 100%; display: none;">
+            </div>
+            
+            <!-- New section for displaying recognized chords -->
+            <div id="chord-results" style="display: none; margin-top: 20px;">
+                <h3>Detected Chords</h3>
+                <p id="detectedChords"></p>
+                <h3>Converted to Nashville Numbers</h3>
+                <p id="convertedChords"></p>
+            </div>
         </div>
+        
+        
     </div>
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@latest"></script>
+
 </body>
 </html>
