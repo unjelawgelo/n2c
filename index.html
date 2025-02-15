@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="loading-screen">
+        <img src="mochi.gif" alt="Loading..." class="loading-logo">
+        <div class="loading-bar"></div>
+    </div>
+
+
     <div class="container">
-        <h1>Chord Converter</h1>
+        <h1>n2c Converter</h1>
+        <p id="n2c-status">An In-progress Nashville to Chords Converter</p>
         <div class="tab-container">
             <button class="tab-button active" onclick="setActive(this)">Manual Input</button>
             <button class="tab-button" onclick="setActive(this)">Image Upload</button>
@@ -16,7 +23,7 @@
         
         <div id="manual-input" class="tab-content active">
             <div class="key-selector">
-                <label>Key:</label>
+                <!-- <label>Key:</label> -->
                 <div class="key-tabs">
                     <button class="key-tab active" data-value="C">C</button>
                     <button class="key-tab" data-value="C#">C#</button>
@@ -35,6 +42,7 @@
             </div>
             
             <div class="sections">
+                <label>Select:</label>
                 <div class="section-tabs">
                     <button class="section-tab active" data-section="intro">Intro</button>
                     <button class="section-tab" data-section="verse">Verse</button>
