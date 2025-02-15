@@ -229,10 +229,11 @@ body {
 
 /* Loading GIF */
 .loading-logo {
-    width: 150px; /* Adjust size as needed */
+    width: 340px; /* Adjust size as needed */
     height: auto;
     border-radius: 50px; /* Smooth edges */
     object-fit: contain;
+    
 }
 
 /* Loading bar */
@@ -251,7 +252,7 @@ body {
     width: 0%;
     height: 100%;
     background: rgb(0, 0, 0);
-    animation: loading 3s linear forwards;
+    animation: loading 2s linear forwards;
 }
 
 @keyframes loading {
