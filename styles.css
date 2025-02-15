@@ -73,7 +73,7 @@ body {
   .section-tab {
     padding: 5px 10px;
     border: none;
-    background-color: #5a5a5a;
+    background-color: #b1b1b1ed;
     cursor: pointer;
     margin-right: 5px;
     margin-bottom: 5px;
@@ -109,6 +109,7 @@ body {
   
   button:hover {
     background-color: #444;
+    color: white;
   }
   
   .summary {
@@ -156,4 +157,25 @@ body {
 #chord-results h3 {
     margin-bottom: 10px;
     color: #333;
+}
+
+.key-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.key-tab {
+    background: #eeeeee;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: 0.3s;
+}
+
+.key-tab.active {
+    background: #2259d7;
+    color: rgb(255, 255, 255);
 }
