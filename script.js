@@ -168,6 +168,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        document.getElementById("loading-screen").style.display = "none";
+        document.querySelector(".container").style.display = "block";
+    }, 3000); // 3-second delay
+});
 
 
 
@@ -226,3 +232,11 @@ function displayDetectedChords(chords) {
     document.getElementById("detectedChords").textContent = chords.length > 0 ? chords.join(", ") : "No chords detected.";
 }
 
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        document.getElementById("loading-screen").style.display = "none";
+        document.querySelector(".container").style.display = "block";
+    }, 3000); // 3-second delay
+});
