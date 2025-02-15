@@ -1,6 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    const majorScale = ["C", "D", "E", "F", "G", "A", "B"]
+    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const majorScales = {
+        "C":  ["C", "D", "E", "F", "G", "A", "B"],
+        "C#": ["C#", "D#", "F", "F#", "G#", "A#", "C"],
+        "D":  ["D", "E", "F#", "G", "A", "B", "C#"],
+        "D#": ["D#", "F", "G", "G#", "A#", "C", "D"],
+        "E":  ["E", "F#", "G#", "A", "B", "C#", "D#"],
+        "F":  ["F", "G", "A", "A#", "C", "D", "E"],
+        "F#": ["F#", "G#", "A#", "B", "C#", "D#", "F"],
+        "G":  ["G", "A", "B", "C", "D", "E", "F#"],
+        "G#": ["G#", "A#", "C", "C#", "D#", "F", "G"],
+        "A":  ["A", "B", "C#", "D", "E", "F#", "G#"],
+        "A#": ["A#", "C", "D", "D#", "F", "G", "A"],
+        "B":  ["B", "C#", "D#", "E", "F#", "G#", "A#"]
+    };
+        
     const sections = ["intro", "verse", "pre-chorus", "chorus", "passing-chords", "bridge", "outro"]
     let currentSection = "intro"
     const sectionData = {}
@@ -10,23 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   
     function convertNashvilleToChords(key, nashvilleNumbers) {
-      const keyIndex = majorScale.indexOf(key[0].toUpperCase())
-      if (keyIndex === -1) return "Invalid key"
-  
-      const numbers = nashvilleNumbers.split(/\s+/)
-      const chords = numbers.map((num) => {
-        const parsedNum = Number.parseInt(num)
-        if (isNaN(parsedNum) || parsedNum < 1 || parsedNum > 7) {
-          return num // Return the original input if it's not a valid number
-        }
-        const index = (parsedNum - 1 + keyIndex) % 7
-        const noteName = majorScale[index]
-        // 2, 3, and 6 are minor chords
-        const isMinor = [2, 3, 6].includes(parsedNum)
-        return `${noteName}${isMinor ? "m" : ""}`
-      })
-  
-      return chords.join(" ")
+        if (!majorScales[key]) return "Invalid key";
+
+        const scale = majorScales[key];
+        const numbers = nashvilleNumbers.split(/\s+/);
+        
+        return numbers.map(num => {
+            const parsedNum = parseInt(num, 10);
+            if (isNaN(parsedNum) || parsedNum < 1 || parsedNum > 7) return num; 
+            const note = scale[parsedNum - 1];
+            const isMinor = [2, 3, 6].includes(parsedNum);
+            return `${note}${isMinor ? "m" : ""}`;
+        }).join(" ");
     }
   
     function updateConvertedChords() {
@@ -89,6 +98,23 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("converted").value = sectionData[section].converted
       })
     })
+
+    document.querySelectorAll(".key-tab").forEach(tab => {
+        tab.addEventListener("click", function () {
+            // Remove 'active' class from all tabs
+            document.querySelectorAll(".key-tab").forEach(btn => btn.classList.remove("active"));
+    
+            // Set clicked tab as active
+            this.classList.add("active");
+    
+            // Update the hidden input's value to match selected key
+            document.getElementById("key").value = this.dataset.value;
+    
+            // Trigger the existing change event to update chords
+            document.getElementById("key").dispatchEvent(new Event("change"));
+        });
+    });
+    
   
     document.querySelectorAll(".tab-button").forEach((button) => {
         button.addEventListener("click", function () {
@@ -112,6 +138,17 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
   
+
+
+
+
+
+
+
+
+
+
+  
   function setActive(button) {
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
@@ -128,40 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-//Key first
-document.addEventListener("DOMContentLoaded", function () {
-    const keySelector = document.getElementById("key");
-    const nashvilleInput = document.getElementById("nashville");
-    
-    // Create a message element
-    const message = document.createElement("p");
-    message.textContent = "Please select a key first.";
-    message.style.color = "red";
-    message.style.fontSize = "14px";
-    message.style.display = "none"; // Initially hidden
-    nashvilleInput.parentNode.appendChild(message);
 
-    // Disable input initially
-    nashvilleInput.disabled = true;
 
-    keySelector.addEventListener("change", function () {
-        if (keySelector.value) {
-            nashvilleInput.disabled = false;
-            message.style.display = "none"; // Hide message when key is selected
-        } else {
-            nashvilleInput.disabled = true;
-        }
-    });
 
-    nashvilleInput.addEventListener("click", function () {
-        if (!keySelector.value) {
-            message.style.display = "block"; // Show message
-            setTimeout(() => {
-                message.style.display = "none"; // Hide after 3 seconds
-            }, 3000);
-        }
-    });
-});
+
+
+
+
+
+
+
+
+
 
 
 //image upload
@@ -182,26 +197,23 @@ document.getElementById("imageInput").addEventListener("change", function (event
 //ai
 document.getElementById("imageInput").addEventListener("change", function (event) {
     const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const uploadedImage = document.getElementById("uploadedImage");
-            uploadedImage.src = e.target.result;
-            uploadedImage.style.display = "block";
+    if (!file) return;
 
-            // Perform OCR to extract text (chords)
-            Tesseract.recognize(
-                e.target.result,
-                'eng',
-                { logger: (m) => console.log(m) } // Logs OCR process
-            ).then(({ data: { text } }) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const uploadedImage = document.getElementById("uploadedImage");
+        uploadedImage.src = e.target.result;
+        uploadedImage.style.display = "block";
+
+        // OCR processing
+        Tesseract.recognize(e.target.result, 'eng', { logger: (m) => console.log(m) })
+            .then(({ data: { text } }) => {
                 console.log("Extracted Text:", text);
                 const detectedChords = extractChords(text);
-                displayConvertedChords(detectedChords);
+                displayDetectedChords(detectedChords);
             });
-        };
-        reader.readAsDataURL(file);
-    }
+    };
+    reader.readAsDataURL(file);
 });
 
 function extractChords(text) {
@@ -209,22 +221,8 @@ function extractChords(text) {
     return text.match(chordPattern) || [];
 }
 
-function displayConvertedChords(chords) {
-    const key = document.getElementById("key").value;
-    const convertedChords = chords.map(chord => convertToNashville(key, chord));
-
-    // Display the results in the new section
+function displayDetectedChords(chords) {
     document.getElementById("chord-results").style.display = "block";
     document.getElementById("detectedChords").textContent = chords.length > 0 ? chords.join(", ") : "No chords detected.";
-    document.getElementById("convertedChords").textContent = convertedChords.length > 0 ? convertedChords.join(", ") : "No converted chords available.";
 }
 
-function convertToNashville(key, chord) {
-    const nashvilleMap = {
-        "C": { "C": "1", "Dm": "2m", "Em": "3m", "F": "4", "G": "5", "Am": "6m", "Bdim": "7dim" },
-        "G": { "G": "1", "Am": "2m", "Bm": "3m", "C": "4", "D": "5", "Em": "6m", "F#dim": "7dim" }
-        // Add more keys as needed...
-    };
-    
-    return nashvilleMap[key]?.[chord] || chord; // Default to the same chord if not found
-}
