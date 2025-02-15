@@ -238,5 +238,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         document.getElementById("loading-screen").style.display = "none";
         document.querySelector(".container").style.display = "block";
-    }, 3000); // 3-second delay
+    }, 5000); // 3-second delay
 });
