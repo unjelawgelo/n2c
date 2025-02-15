@@ -176,7 +176,7 @@ body {
     background: #eeeeee;
     color: black;
     border: none;
-    padding: 6px 6.5px; /* Reduce padding */
+    padding: 7px 7.5px; /* Reduce padding */
     font-size: 11px; /* Decrease font size */
     cursor: pointer;
     border-radius: 1px;
